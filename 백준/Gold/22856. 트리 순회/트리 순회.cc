@@ -15,16 +15,15 @@ void go(int node){
     if(left_node != -1){
         ans+=1;
         go(left_node);
-        if(flag) ans+=1;
+        ans+=1;
     }
     if(right_node != -1){
         ans+=1;
         go(right_node);
-        if(flag) ans+=1;
+        ans+=1;
     }
     if(node == end_node){
-        flag = false;
-        return;
+        cout << ans <<"\n";
     }
 }
 
@@ -55,5 +54,4 @@ int main(){
     }
     inorder(1);
     go(1);  
-    cout<<ans;
 }
