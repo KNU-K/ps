@@ -1,36 +1,39 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
-#define ll long long
+#include <algorithm>
 using namespace std;
-ll n, m, t, ans;
-int main(){
-    cin >> t >> n;
-    vector <ll> a(n);
-    for(int i = 0; i < n; i++) cin >> a[i];
-    cin >> m;
-    vector <ll> b(m);
-    for(int i = 0; i < m; i++) cin >> b[i];
-    for(int i = 0; i < n; i++){
-        ll sum = a[i];
-        for(int j = i+1; j < n; j++){
-            sum += a[j];
-            a.push_back(sum);
-        }
-    }
+long long arr1[1002] = { 0, };
+long long arr2[1002] = { 0, };
+vector<long long> a;
+vector<long long> b;
+int main() {
+	long long t;
+	long long n, m;
+	cin >> t;
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		cin >> arr1[i];
+		arr1[i] += arr1[i - 1];
+		for (int j = 0; j <= i - 1;j++) {
+			a.push_back(arr1[i] - arr1[j]);
+		}
+	}
+	cin >> m;
+	for (int i = 1; i <= m; i++) {
+		cin >> arr2[i];
+		arr2[i] += arr2[i - 1];
+		for (int j = 0; j <= i - 1; j++) {
+			b.push_back(arr2[i] - arr2[j]);
+		}
+	}
 
-    for(int i = 0; i < m; i++){
-        ll sum = b[i];
-        for(int j = i+1; j < m; j++){
-            sum += b[j];
-            b.push_back(sum);
-        }
-    }
-    sort(b.begin(),b.end());
-    for(int i = 0; i < a.size(); i++){
-        int idx = lower_bound(b.begin(),b.end(),t - a[i]) - b.begin();
-        int endIdx = upper_bound(b.begin(),b.end(),t - a[i]) - b.begin();
-        ans += endIdx - idx;
-    }
-    cout << ans << '\n';
+	sort(b.begin(), b.end());
+	long long cnt = 0;
+
+	for (auto e: a) {
+		int start = lower_bound(b.begin(), b.end(), t - e) - b.begin();
+		int end = upper_bound(b.begin(), b.end(), t - e) - b.begin();
+		cnt += end - start;
+	}
+	cout << cnt << "\n";
 }
